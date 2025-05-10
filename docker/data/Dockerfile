@@ -1,0 +1,6 @@
+FROM postgres:14
+
+ENV POSTGRES_USER=webapp
+ENV POSTGRES_PASSWORD=webapp
+ENV TZ=Asia/Tokyo
+ENV POSTGRES_DB=kotetsu

@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  app:
+    build: ./docker/app-develop
+    volumes:
+      - app-store:/project
+    ports:
+      - 8765:8000
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://data/usermanager
+      - DATASOURCE_USERNAME=webapp
+      - DATASOURCE_PASSWORD=webapp
+    tty: true
+    command: sleep infinity
+  
+  data:
+    build: ./docker/data
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    ports:
+      - 6432:5432
+    environment:
+      - POSTGRES_DB=usermanager
+      - POSTGRES_USER=webapp
+      - POSTGRES_PASSWORD=webapp
+    tty: true
+
+volumes:
+  app-store:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./project
+      o: bind
+  db-store:
