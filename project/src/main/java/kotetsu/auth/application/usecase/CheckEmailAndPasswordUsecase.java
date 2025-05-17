@@ -2,25 +2,22 @@ package kotetsu.auth.application.usecase;
 
 import kotetsu.auth.application.domain.entity.AuthUser;
 import kotetsu.auth.application.domain.repository.IFetchAuthUserRepository;
+import kotetsu.auth.application.domain.service.AuthUserService;
 import kotetsu.auth.application.domain.value.Email;
+import kotetsu.auth.application.domain.value.Password;
 import kotetsu.auth.application.dto.EmailAndPasswordCheckInput;
 import kotetsu.auth.application.dto.EmailAndPasswordCheckOutput;
-import kotetsu.auth.application.util.IHashedPasswordChecker;
-import kotetsu.auth.application.util.IHashedPasswordGenerator;
 
 public class CheckEmailAndPasswordUsecase {
     private final IFetchAuthUserRepository fetchAuthUserRepository;
-    private final IHashedPasswordGenerator hashedPasswordGenerator;
-    private final IHashedPasswordChecker hashedPasswordChecker;
+    private final AuthUserService authUserService;
 
     public CheckEmailAndPasswordUsecase(
         IFetchAuthUserRepository fetchAuthUserRepository,
-        IHashedPasswordGenerator hashedPasswordGenerator,
-        IHashedPasswordChecker hashedPasswordChecker
+        AuthUserService authUserService
     ) {
         this.fetchAuthUserRepository = fetchAuthUserRepository;
-        this.hashedPasswordGenerator = hashedPasswordGenerator;
-        this.hashedPasswordChecker = hashedPasswordChecker;
+        this.authUserService = authUserService;
     }
 
     public EmailAndPasswordCheckOutput isEmailAndPasswordValid(EmailAndPasswordCheckInput input) {
@@ -35,10 +32,7 @@ public class CheckEmailAndPasswordUsecase {
             );
         }
 
-        if (!hashedPasswordChecker.areEquals(
-            user.getPassword().getValue(),
-            hashedPasswordGenerator.generate(input.getPassword())
-        )) {
+        if (!authUserService.isPasswordValid(user, Password.of(input.getPassword()))) {
             return EmailAndPasswordCheckOutput.of(
                 false,
                 user.getCode().getValue(),

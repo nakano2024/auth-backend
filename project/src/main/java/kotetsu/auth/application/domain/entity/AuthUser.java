@@ -9,19 +9,19 @@ import lombok.Getter;
 
 public class AuthUser {
     @Getter
-    private Code code;
+    private final Code code;
 
     @Getter
-    private UserName name;
+    private final UserName name;
 
     @Getter
-    private Email email;
+    private final Email email;
 
     @Getter
-    private Password password;
+    private final Password password;
 
     @Getter
-    private UserImageUrl imageUrl;
+    private final UserImageUrl imageUrl;
 
     private AuthUser(Code code, UserName name, Email email, Password password, UserImageUrl imageUrl) {
         this.code = code;
