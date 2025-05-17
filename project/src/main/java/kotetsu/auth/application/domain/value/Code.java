@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public class Code {
     @Getter
-    private String value;
+    private final String value;
 
     private Code(String value) {
         this.value = value;

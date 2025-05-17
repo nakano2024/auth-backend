@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public class RawPassword {
     @Getter
-    String value;
+    private final String value;
 
     public RawPassword(String value) {
         this.value = value;

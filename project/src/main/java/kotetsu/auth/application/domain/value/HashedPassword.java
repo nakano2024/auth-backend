@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public class HashedPassword {
     @Getter
-    String value;
+    private final String value;
 
     public HashedPassword(String value) {
         this.value = value;

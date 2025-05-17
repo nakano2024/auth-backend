@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public class Email {
     @Getter
-    private String value;
+    private final String value;
 
     private Email(String value) {
         this.value = value;
