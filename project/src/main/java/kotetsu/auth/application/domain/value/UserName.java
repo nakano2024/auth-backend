@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public class UserName {
     @Getter
-    String value;
+    private final String value;
 
     private UserName(String value) {
         this.value = value;

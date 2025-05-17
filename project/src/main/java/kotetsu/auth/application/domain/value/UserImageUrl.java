@@ -4,7 +4,7 @@ import lombok.Getter;
 
 public class UserImageUrl {
     @Getter
-    String value;
+    private final String value;
 
     private UserImageUrl(String value) {
         this.value = value;
