@@ -1,17 +1,17 @@
 package kotetsu.auth.application.domain.service;
 
-import org.springframework.stereotype.Service;
-
 import kotetsu.auth.application.domain.entity.AuthUser;
-import kotetsu.auth.application.domain.value.Password;
+import kotetsu.auth.application.domain.util.IHashedPasswordChecker;
+import kotetsu.auth.application.domain.value.RawPassword;
 
-@Service
 public class AuthUserService {
-    public AuthUserService() {
+    private final IHashedPasswordChecker hashedPasswordChecker;
 
+    public AuthUserService(IHashedPasswordChecker hashedPasswordChecker) {
+        this.hashedPasswordChecker = hashedPasswordChecker;
     }
 
-    public boolean isPasswordValid(AuthUser user, Password password) {
-        return false;
+    public boolean isPasswordValid(RawPassword inputPassword, AuthUser user) {
+        return hashedPasswordChecker.areEquals(inputPassword, user.getPassword());
     }
 }

@@ -20,7 +20,7 @@ import kotetsu.auth.application.domain.repository.IFetchAuthUserRepository;
 import kotetsu.auth.application.domain.service.AuthUserService;
 import kotetsu.auth.application.domain.value.Code;
 import kotetsu.auth.application.domain.value.Email;
-import kotetsu.auth.application.domain.value.Password;
+import kotetsu.auth.application.domain.value.RawPassword;
 import kotetsu.auth.application.domain.value.UserImageUrl;
 import kotetsu.auth.application.domain.value.UserName;
 import kotetsu.auth.application.dto.EmailAndPasswordCheckInput;
@@ -42,7 +42,7 @@ public class IsEmailAndPasswordValidTest {
     Email email;
 
     @Mock
-    Password inputPassword;
+    RawPassword inputPassword;
 
     @Mock
     UserName userName;
@@ -70,7 +70,7 @@ public class IsEmailAndPasswordValidTest {
     public void returnTrueWhenUserExistHavingCorrectEmailAndPassword() {
         try(
             final MockedStatic<EmailAndPasswordCheckOutput> outputStaticMock = mockStatic(EmailAndPasswordCheckOutput.class);
-            final MockedStatic<Password> passwordStaticMock = mockStatic(Password.class);
+            final MockedStatic<RawPassword> passwordStaticMock = mockStatic(RawPassword.class);
         ) {
             when(userCode.getValue()).thenReturn("7d625f35-9a0c-b31b-03ac-d729cc53460a");
             when(email.getValue()).thenReturn("test@example.com");
@@ -90,7 +90,7 @@ public class IsEmailAndPasswordValidTest {
             when(input.getEmail()).thenReturn("");
             when(input.getPassword()).thenReturn("");
 
-            passwordStaticMock.when(() -> Password.of(anyString())).thenReturn(inputPassword);
+            passwordStaticMock.when(() -> RawPassword.of(anyString())).thenReturn(inputPassword);
 
             checkEmailAndPasswordUsecase.isEmailAndPasswordValid(input);
 
@@ -146,7 +146,7 @@ public class IsEmailAndPasswordValidTest {
     public void returnFalseWhenPasswordIncorrect() {
         try(
             MockedStatic<EmailAndPasswordCheckOutput> outputStaticMock = mockStatic(EmailAndPasswordCheckOutput.class);
-            MockedStatic<Password> passwordStaticMock = mockStatic(Password.class);
+            MockedStatic<RawPassword> passwordStaticMock = mockStatic(RawPassword.class);
         ) {
             when(userCode.getValue()).thenReturn("7d625f35-9a0c-b31b-03ac-d729cc53460a");
             when(email.getValue()).thenReturn("test@example.com");
@@ -160,7 +160,7 @@ public class IsEmailAndPasswordValidTest {
 
             when(fetchAuthUserRepository.fetch(any())).thenReturn(authUser);
 
-            passwordStaticMock.when(() -> Password.of(anyString())).thenReturn(inputPassword);
+            passwordStaticMock.when(() -> RawPassword.of(anyString())).thenReturn(inputPassword);
 
             // 今回はinputの値に左右されないテストのためから文字を格納
             when(input.getEmail()).thenReturn("");

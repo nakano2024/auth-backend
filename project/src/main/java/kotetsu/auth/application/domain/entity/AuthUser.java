@@ -2,7 +2,7 @@ package kotetsu.auth.application.domain.entity;
 
 import kotetsu.auth.application.domain.value.Code;
 import kotetsu.auth.application.domain.value.Email;
-import kotetsu.auth.application.domain.value.Password;
+import kotetsu.auth.application.domain.value.HashedPassword;
 import kotetsu.auth.application.domain.value.UserImageUrl;
 import kotetsu.auth.application.domain.value.UserName;
 import lombok.Getter;
@@ -18,12 +18,12 @@ public class AuthUser {
     private final Email email;
 
     @Getter
-    private final Password password;
+    private final HashedPassword password;
 
     @Getter
     private final UserImageUrl imageUrl;
 
-    private AuthUser(Code code, UserName name, Email email, Password password, UserImageUrl imageUrl) {
+    private AuthUser(Code code, UserName name, Email email, HashedPassword password, UserImageUrl imageUrl) {
         this.code = code;
         this.name = name;
         this.email = email;
@@ -31,7 +31,7 @@ public class AuthUser {
         this.imageUrl = imageUrl;
     }
 
-    public static AuthUser fetch(Code code , UserName name, Email email, Password password, UserImageUrl imageUrl) {
+    public static AuthUser fetch(Code code , UserName name, Email email, HashedPassword password, UserImageUrl imageUrl) {
         return new AuthUser(
             code,
             name,

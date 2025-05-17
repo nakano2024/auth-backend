@@ -4,7 +4,7 @@ import kotetsu.auth.application.domain.entity.AuthUser;
 import kotetsu.auth.application.domain.repository.IFetchAuthUserRepository;
 import kotetsu.auth.application.domain.service.AuthUserService;
 import kotetsu.auth.application.domain.value.Email;
-import kotetsu.auth.application.domain.value.Password;
+import kotetsu.auth.application.domain.value.RawPassword;
 import kotetsu.auth.application.dto.EmailAndPasswordCheckInput;
 import kotetsu.auth.application.dto.EmailAndPasswordCheckOutput;
 
@@ -32,7 +32,7 @@ public class CheckEmailAndPasswordUsecase {
             );
         }
 
-        if (!authUserService.isPasswordValid(user, Password.of(input.getPassword()))) {
+        if (!authUserService.isPasswordValid(RawPassword.of(input.getPassword()), user)) {
             return EmailAndPasswordCheckOutput.of(
                 false,
                 user.getCode().getValue(),
