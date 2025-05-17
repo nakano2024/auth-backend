@@ -2,16 +2,16 @@ package kotetsu.auth.application.domain.value;
 
 import lombok.Getter;
 
-public class Password {
+public class RawPassword {
     @Getter
     String value;
 
-    public Password(String value) {
+    public RawPassword(String value) {
         this.value = value;
     }
 
-    public static Password of(String value) {
-        Password password = new Password(value);
+    public static RawPassword of(String value) {
+        RawPassword password = new RawPassword(value);
         return password;
     }
 }
