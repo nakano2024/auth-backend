@@ -15,7 +15,7 @@ public class GetUserCredentialsByEmailUsecase {
         this.fetchAuthUserRepository = fetchAuthUserRepository;
     }
 
-    public UserCredentialsOutput getUserCredentials(GetUserCredentialsInput input) {
+    public UserCredentialsOutput getUserCredentials(GetUserCredentialsInput input) throws AuthUserNotFoundException {
         AuthUser user = fetchAuthUserRepository.fetchByEmail(Email.of(input.getEmail()));
 
         if (user == null) {

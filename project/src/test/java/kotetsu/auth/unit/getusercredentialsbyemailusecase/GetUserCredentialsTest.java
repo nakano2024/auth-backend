@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -88,7 +89,9 @@ public class GetUserCredentialsTest {
 
             emailStatic.when(() -> Email.of(anyString())).thenReturn(inputEmail);
 
-            usecase.getUserCredentials(input);
+            assertDoesNotThrow(() -> {
+                usecase.getUserCredentials(input);
+            });
 
             ArgumentCaptor<String> codeCaptor = ArgumentCaptor.forClass(String.class);
             ArgumentCaptor<String> nameCaptor = ArgumentCaptor.forClass(String.class);
@@ -113,9 +116,7 @@ public class GetUserCredentialsTest {
 
     @Test
     public void throwExceptionIfUserNull() {
-        try(
-            MockedStatic<Email> emailStatic = mockStatic(Email.class);
-        ) {
+        try (MockedStatic<Email> emailStatic = mockStatic(Email.class)) {
             when(input.getEmail()).thenReturn("hoge@example.com");
             when(fetchAuthUserByEmailRepository.fetchByEmail(any())).thenReturn(null);
             
