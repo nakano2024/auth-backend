@@ -7,26 +7,18 @@ public class UserCredentialsOutput {
     private final String userCode;
 
     @Getter
-    private final String name;
-
-    @Getter
     private final String email;
 
     @Getter
     private final String hashedPassword;
 
-    @Getter
-    private final String imageUrl;
-
-    private UserCredentialsOutput(String userCode, String name, String email, String hashedPassword, String imageUrl) {
+    private UserCredentialsOutput(String userCode, String email, String hashedPassword) {
         this.userCode = userCode;
-        this.name = name;
         this.email = email;
         this.hashedPassword = hashedPassword;
-        this.imageUrl = imageUrl;
     }
 
-    public static UserCredentialsOutput of(String userCode, String name, String email, String hashedPassword, String imageUrl) {
-        return new UserCredentialsOutput(userCode, name, email, hashedPassword, imageUrl);
+    public static UserCredentialsOutput of(String userCode, String email, String hashedPassword) {
+        return new UserCredentialsOutput(userCode, email, hashedPassword);
     }
 }

@@ -1,33 +1,33 @@
 package kotetsu.auth.application.usecase;
 
-import kotetsu.auth.application.domain.entity.AuthUser;
-import kotetsu.auth.application.domain.exception.AuthUserNotFoundException;
-import kotetsu.auth.application.domain.repository.IFetchAuthUserByEmailRepository;
+import org.springframework.stereotype.Component;
+
+import kotetsu.auth.application.domain.entity.UserCredential;
+import kotetsu.auth.application.domain.exception.UserCredentialNotFoundException;
+import kotetsu.auth.application.domain.repository.IFetchUserCredentialByEmailRepository;
 import kotetsu.auth.application.domain.value.Email;
 import kotetsu.auth.application.dto.GetUserCredentialsInput;
 import kotetsu.auth.application.dto.UserCredentialsOutput;
 
-
+@Component
 public class GetUserCredentialsByEmailUsecase {
-    private final IFetchAuthUserByEmailRepository fetchAuthUserRepository;
+    private final IFetchUserCredentialByEmailRepository fetchUserCredentialByEmailRepository;
 
-    public GetUserCredentialsByEmailUsecase(IFetchAuthUserByEmailRepository fetchAuthUserRepository) {
-        this.fetchAuthUserRepository = fetchAuthUserRepository;
+    public GetUserCredentialsByEmailUsecase(IFetchUserCredentialByEmailRepository fetchUserCredentialByEmailRepository) {
+        this.fetchUserCredentialByEmailRepository = fetchUserCredentialByEmailRepository;
     }
 
-    public UserCredentialsOutput getUserCredentials(GetUserCredentialsInput input) {
-        AuthUser user = fetchAuthUserRepository.fetchByEmail(Email.of(input.getEmail()));
+    public UserCredentialsOutput getUserCredentials(GetUserCredentialsInput input) throws UserCredentialNotFoundException {
+        UserCredential user = fetchUserCredentialByEmailRepository.fetchByEmail(Email.of(input.getEmail()));
 
         if (user == null) {
-            throw new AuthUserNotFoundException();
+            throw new UserCredentialNotFoundException();
         }
 
         return UserCredentialsOutput.of(
             user.getCode().getValue(),
-            user.getName().getValue(),
             user.getEmail().getValue(),
-            user.getPassword().getValue(),
-            user.getImageUrl().getValue()
+            user.getPassword().getValue()
         );
     }
 }
