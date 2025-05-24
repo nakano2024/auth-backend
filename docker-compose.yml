@@ -25,6 +25,18 @@ services:
       - POSTGRES_PASSWORD=webapp
     tty: true
 
+  data-testing:
+    build: ./docker/data
+    volumes:
+      - db-testing-store:/var/lib/postgresql/data
+    ports:
+      - 6433:5432
+    environment:
+      - POSTGRES_DB=usermanager
+      - POSTGRES_USER=webapp
+      - POSTGRES_PASSWORD=webapp
+    tty: true
+
 volumes:
   app-store:
     driver: local
@@ -33,3 +45,4 @@ volumes:
       device: ./project
       o: bind
   db-store:
+  db-testing-store:
